@@ -1,0 +1,3 @@
+services:
+  math_formatter.calculator:
+    class: Drupal\math_formatter\Calculator
