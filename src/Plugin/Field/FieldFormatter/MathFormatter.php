@@ -68,6 +68,15 @@ class MathFormatter extends FormatterBase implements ContainerFactoryPluginInter
   /**
    * {@inheritdoc}
    */
+  public function settingsSummary() {
+    $summary = [];
+    $summary[] = $this->t('Evaluates the mathematical expression and shows its result. It only supports +, -, * and / operands');
+    return $summary;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $elements = [];
 
