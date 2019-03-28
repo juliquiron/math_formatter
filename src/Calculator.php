@@ -12,35 +12,32 @@ use Drupal\math_formatter\Parser;
 /**
  * Performs calculation given a input.
  *
- * It implements the lexer, the parser and the expression evaluation. Supports
- * basic operation: +, -, *, /.
+ * Supports * basic operation: +, -, *, /.
+ *
+ * @see Drupal\math_formatter\Parser
  */
 class Calculator {
 
   /**
-   * The input to evaluate.
+   * Evaluates the expression value.
    *
-   * @var string
-   */
-  protected $input;
-
-  protected $tokens = [];
-
-  /**
-   * Constructs the calculator.
+   * Uses a parser to get a tokenized array in Revers Polish Notation to
+   * evaluate the expression.
    *
-   * @param string $input
-   *   The input to evaluate.
+   * @see Drupal\math_formatter\Parser.
+   *
+   * @var string $input
+   *   The expression to be evaluated.
+   *
+   * @return integer|float
+   *   The value of the expression evaluation.
    */
-  public function __construct() {
-  }
-
   public function calculate($input) {
-    $this->input = $input;
     $parser = new Parser($input);
-    $this->tokens = $parser->parse();
+    $tokens = $parser->parse();
     $operands = [];
-    foreach ($this->tokens as $token) {
+    foreach ($tokens as $token) {
+      // Checks if the token is an operand (number) or an operator.
       if (preg_match('/[\d\.]+/', $token)) {
         $operands[] = $token;
       }
@@ -50,27 +47,38 @@ class Calculator {
         $operands[] = $this->operate($operand1, $operand2, $token);
       }
     }
+
     return array_pop($operands);
   }
 
+  /**
+   * Performs the operation defined by the token.
+   *
+   * Only considers 2 operations, the only two provided by the parser.
+   *
+   * @see Drupal\math_formatter\Parser::getOperand()
+   *
+   * @var integer|float|string $operand1
+   *   The first operand for the operation.
+   * @var integer|float|string $operand2
+   *   The second operand for the operation.
+   * @var string $token
+   *   The token with the operation to be performed.
+   *
+   * @returns integer|float
+   *   The value result of the operation.
+   *
+   * @throws Exception if the operand is not one of the expected.
+   */
   private function operate($operand1, $operand2, $token) {
     switch ($token) {
       case '+':
         return $operand1 + $operand2;
-        break;
-      case '-':
-        return $operand1 - $operand2;
-        break;
       case '*':
         return $operand1 * $operand2;
-        break;
-      case '/':
-        return $operand1 / $operand2;
-        break;
     }
-    // TBD throw exception
-    return 0;
-  }
 
+    throw new Exception('Unexpected operand');
+  }
 
 }
