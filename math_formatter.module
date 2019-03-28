@@ -4,3 +4,15 @@
  * @file
  * Mathematical text formatter hooks.
  */
+
+/**
+ * Implements hook_theme().
+ */
+function math_formatter_theme() {
+  return [
+    'math_formatter' => [
+      'variables' => ['value' => ''],
+      'template' => 'math_formatter',
+    ],
+  ];
+}

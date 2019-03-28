@@ -82,10 +82,8 @@ class MathFormatter extends FormatterBase implements ContainerFactoryPluginInter
 
     foreach ($items as $delta => $item) {
       $elements[$delta] = [
-        '#type' => 'processed_text',
-        '#text' => $this->calculator->calculate($item->value),
-        '#format' => $item->format,
-        '#langcode' => $item->getLangcode(),
+        '#theme' => 'math_formatter',
+        '#value' => $this->calculator->calculate($item->value),
       ];
     }
 
