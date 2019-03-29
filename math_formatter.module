@@ -11,7 +11,7 @@
 function math_formatter_theme() {
   return [
     'math_formatter' => [
-      'variables' => ['value' => ''],
+      'variables' => ['value' => '', 'evaluate' => 'sync'],
       'template' => 'math_formatter',
     ],
   ];

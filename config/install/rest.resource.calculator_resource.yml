@@ -1,0 +1,10 @@
+id: calculator_resource
+plugin_id: calculator_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - cookie

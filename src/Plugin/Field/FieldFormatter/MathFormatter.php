@@ -10,6 +10,7 @@ namespace Drupal\math_formatter\Plugin\Field\FieldFormatter;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\math_formatter\Calculator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -23,7 +24,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   label = @Translation("Calculated value"),
  *   field_types = {
  *     "text",
- *     "text_long",
+ *     "string",
+ *     "string_long"
  *   }
  * )
  */
@@ -68,9 +70,42 @@ class MathFormatter extends FormatterBase implements ContainerFactoryPluginInter
   /**
    * {@inheritdoc}
    */
+  public static function defaultSettings() {
+    return [
+      'evaluate' => 'sync',
+    ] + parent::defaultSettings();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsForm(array $form, FormStateInterface $form_state) {
+    $element['evaluate'] = [
+      '#title' => $this->t('Evaluate the math expression on page load or asynchronously'),
+      '#type' => 'select',
+      '#options' => [
+        'sync' => $this->t('On page load'),
+        'async' => $this->t('Asynchronously'),
+      ],
+      '#default_value' => $this->getSetting('evaluate'),
+    ];
+
+    return $element;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function settingsSummary() {
     $summary = [];
     $summary[] = $this->t('Evaluates the mathematical expression and shows its result. It only supports +, -, * and / operands');
+    if ($this->getSetting('evaluate') === 'sync') {
+      $summary[] = $this->t('The mathematical expression will be evaluated on the page load.');
+    }
+    elseif ($this->getSetting('evaluate') === 'async') {
+      $summary[] = $this->t('The mathematical expression will be evaluated asynchronously and showed on mouse over the expression.');
+    }
+
     return $summary;
   }
 
@@ -78,13 +113,20 @@ class MathFormatter extends FormatterBase implements ContainerFactoryPluginInter
    * {@inheritdoc}
    */
   public function viewElements(FieldItemListInterface $items, $langcode) {
+    $evaluate = $this->getSetting('evaluate');
     $elements = [];
 
     foreach ($items as $delta => $item) {
+      $value = $evaluate === 'async' ? $item->value : $this->calculator->calculate($item->value);
       $elements[$delta] = [
         '#theme' => 'math_formatter',
-        '#value' => $this->calculator->calculate($item->value),
+        '#value' => $value,
+        '#evaluate' => $evaluate,
       ];
+    }
+
+    if ($evaluate === 'async') {
+      $elements['#attached']['library'][] = 'math_formatter/async';
     }
 
     return $elements;

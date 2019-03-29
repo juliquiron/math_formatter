@@ -3,3 +3,5 @@ type: module
 description: 'Provides basic algebraic calculation for text fields (+,-,*,/)'
 package: Fields
 core: 8.x
+dependencies:
+  - drupal:text

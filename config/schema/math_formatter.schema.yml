@@ -1,0 +1,7 @@
+field.formatter.settings.math_formatter:
+  type: mapping
+  label: 'Math formatter formatter settings.'
+  mapping:
+    evaluate:
+      type: string
+      label: "Selects if render in page load or asynchronous."
