@@ -16,3 +16,10 @@ function math_formatter_theme() {
     ],
   ];
 }
+
+/**
+ * Implements hook_uninstall().
+ */
+function math_formatter_uninstall() {
+  \Drupal::configFactory()->getEditable('rest.resource.calculator_resource')->delete();
+}
