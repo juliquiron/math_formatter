@@ -17,7 +17,7 @@ const client = new ApolloClient({
 // Consumes and renders the query result.
 const MathField = (props) => (
   <ApolloProvider client={client}>
-    <Field nid={props.nid} fieldName={props.fieldName} bundle={props.bundle} />
+    <Field apolloClient={client} bundle={props.bundle} fieldName={props.fieldName} nid={props.nid} />
   </ApolloProvider>
 );
 
@@ -29,7 +29,7 @@ Object.keys(fields).forEach(key => {
   let bundleName = _.camelCase(fields[key].getAttribute('data-bundle'));
   let bundleQueryName = 'Node' + _.upperFirst(bundleName);
   ReactDOM.render(
-    <MathField nid={nid} fieldName={fieldName} bundle={bundleQueryName} />,
+    <MathField bundle={bundleQueryName} fieldName={fieldName} nid={nid} />,
     fields[key]
   );
 });

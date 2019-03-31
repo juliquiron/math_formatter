@@ -34,7 +34,7 @@ const Field = (props) => (
     if (error) return `Error: ${error.message}`;
 
     return data.nodeById.fieldEval.map(( expression ) => (
-      <FieldValue expression={expression}/>
+      <FieldValue expression={expression} apolloClient={props.apolloClient}/>
     ));
   }}
 

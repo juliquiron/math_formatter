@@ -83,14 +83,11 @@ class Parser {
   }
 
   /**
-   * Evaluates if the operand value should be inverted.
+   * Inverts operand to reduce expression to only commutative operators (+, *).
    *
-   * Due to the simplification of the algorithm the operator precedence for -
-   * and / should be checked, as long they have the same precedence than + and
-   * * respectively but are inverting the operand value. So given the context
-   * of the previous operator evaluates if the operand should be inverted for
-   * the given operation. This process leads to a RPN much simple with only +
-   * and * operations.
+   * Given the context of the previous operator, evaluates if the operand
+   * should be inverted for the given operation. This process leads to a
+   * RPN much simple with only + and * operations.
    *
    * @var string $operand
    *   The operand to invert if necessary.

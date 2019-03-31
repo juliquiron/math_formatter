@@ -1,3 +1,4 @@
+import gql from "graphql-tag";
 import { Component } from 'react';
 
 class FieldValue extends Component {
@@ -19,7 +20,28 @@ class FieldValue extends Component {
     return this.state.evaluated !== nextState.evaluated;
   }
 
-  evaluate = () => {
+
+  evaluate = (client) => {
+    if (!this.state.evaluated) {
+      client.query({
+        query: gql`
+          query calculate($expression: String!) {
+            calculator(expression: $expression)
+          }`,
+        variables: {
+          expression: this.props.expression
+        }})
+        .then(response => {
+          this.updateExpression({
+            appendResult: response.data.calculator
+          });
+        });
+    }
+
+  }
+
+  // Unused since implemented GraphQL. Not removed for demonstrations proposes.
+  evaluateREST = () => {
     if (!this.state.evaluated) {
       let requestURL = "/calculator/evaluate?_format=json&expression=" + this.props.expression;
       fetch(requestURL)
@@ -32,7 +54,7 @@ class FieldValue extends Component {
     }
   };
   render () {
-    return <div onMouseEnter={this.evaluate}>{this.props.expression}</div>;
+    return <div onMouseEnter={() => { this.evaluate(this.props.apolloClient) }}>{this.props.expression}</div>;
   }
 
 }
