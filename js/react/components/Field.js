@@ -34,7 +34,10 @@ const Field = (props) => (
     if (loading) return "Loading...";
     if (error) return `Error: ${error.message}`;
 
-    return data.nodeById[props.fieldName].map(( expression ) => (
+    // Compatibility with single value fields.
+    let expressions = _.castArray(data.nodeById[props.fieldName])
+
+    return expressions.map(( expression ) => (
       <FieldValue expression={expression} apolloClient={props.apolloClient}/>
     ));
   }}
