@@ -1,6 +1,12 @@
 async:
   js:
-    assets/js/async-evaluate.js: {}
+    js/assets/async-evaluate.js: {}
   dependencies:
     - core/jquery
-
+react_field:
+  version: 1.0.0
+  footer: true
+  js:
+    js/react/build/math_formatter.js: { preprocess: 0 }
+  dependencies:
+    - core/drupal
