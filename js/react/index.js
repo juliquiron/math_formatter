@@ -23,6 +23,7 @@ const MathField = (props) => (
 
 var fields = document.getElementsByClassName('render--react-math-formatter');
 Object.keys(fields).forEach(key => {
+  // Reads field context from the template.
   let nid = fields[key].getAttribute('data-nid');
   let fieldName = _.camelCase(fields[key].getAttribute('data-field-name'));
   let bundleName = _.camelCase(fields[key].getAttribute('data-bundle'));
