@@ -20,7 +20,6 @@ class FieldValue extends Component {
     return this.state.evaluated !== nextState.evaluated;
   }
 
-
   evaluate = (client) => {
     if (!this.state.evaluated) {
       client.query({
@@ -53,6 +52,7 @@ class FieldValue extends Component {
         });
     }
   };
+
   render () {
     return <div onMouseEnter={() => { this.evaluate(this.props.apolloClient) }}>{this.props.expression}</div>;
   }

@@ -27,7 +27,6 @@ use Psr\Log\LoggerInterface;
  *     "canonical" = "/calculator/evaluate"
  *   }
  * )
- *
  */
 class CalculatorResource extends ResourceBase {
 
@@ -54,7 +53,8 @@ class CalculatorResource extends ResourceBase {
     array $serializer_formats,
     LoggerInterface $logger,
     Calculator $calculator,
-    Request $request) {
+    Request $request
+  ) {
       parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
 
       $this->calculator = $calculator;

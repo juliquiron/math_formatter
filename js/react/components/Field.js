@@ -4,9 +4,10 @@ import { Query } from 'react-apollo';
 
 import FieldValue from './FieldValue'
 
-// The formatter can render any configured field name for any bundle. This
-// GraphQL query uses placeholders to fetch the proper field and use the
-// proper bundle fragment. Use string replace as a workaround it.
+// The field formatter can render any configured field name for any bundle.
+// This GraphQL query uses placeholders to fetch the proper field and use the
+// proper bundle fragment. Use string replace as a workaround for it.
+//
 // Note: React formatter only supports plain text fields, so is not
 //       need to deal with properties in the field value.
 const baseQuery = `query fieldValues($nodeId: String!) {
@@ -33,11 +34,10 @@ const Field = (props) => (
     if (loading) return "Loading...";
     if (error) return `Error: ${error.message}`;
 
-    return data.nodeById.fieldEval.map(( expression ) => (
+    return data.nodeById[props.fieldName].map(( expression ) => (
       <FieldValue expression={expression} apolloClient={props.apolloClient}/>
     ));
   }}
-
   </Query>
 );
 

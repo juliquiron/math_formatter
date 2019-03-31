@@ -12,12 +12,10 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\math_formatter\Calculator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-
 /**
- * Plugin implementation of math formatter.
+ * Plugin implementation of math formatter in React.
  *
  * @FieldFormatter(
  *   id = "react_math_formatter",
@@ -31,23 +29,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ReactMathFormatter extends FormatterBase implements ContainerFactoryPluginInterface {
 
   /**
-   * The calculator service
-   *
-   * @var \Drupal\math_formatter\Calculator
+   * {@inheritdoc}
    */
-  protected $calculator;
-
-
-  /**
-   * Construct a MyFormatter object
-   *
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entityManager
-   *   The entity manager service
-   */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, Calculator $calculator) {
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
-
-    $this->calculator = $calculator;
   }
 
   /**
@@ -61,59 +46,14 @@ class ReactMathFormatter extends FormatterBase implements ContainerFactoryPlugin
       $configuration['settings'],
       $configuration['label'],
       $configuration['view_mode'],
-      $configuration['third_party_settings'],
-      $container->get('math_formatter.calculator')
+      $configuration['third_party_settings']
     );
   }
 
   /**
    * {@inheritdoc}
    */
-  //public static function defaultSettings() {
-    //return [
-      //'evaluate' => 'sync',
-    //] + parent::defaultSettings();
-  //}
-
-  /**
-   * {@inheritdoc}
-   */
-  //public function settingsForm(array $form, FormStateInterface $form_state) {
-    //$element['evaluate'] = [
-      //'#title' => $this->t('Evaluate the math expression on page load or asynchronously'),
-      //'#type' => 'select',
-      //'#options' => [
-        //'sync' => $this->t('On page load'),
-        //'async' => $this->t('Asynchronously'),
-      //],
-      //'#default_value' => $this->getSetting('evaluate'),
-    //];
-
-    //return $element;
-  //}
-
-  /**
-   * {@inheritdoc}
-   */
-  //public function settingsSummary() {
-    //$summary = [];
-    //$summary[] = $this->t('Evaluates the mathematical expression and shows its result. It only supports +, -, * and / operands');
-    //if ($this->getSetting('evaluate') === 'sync') {
-      //$summary[] = $this->t('The mathematical expression will be evaluated on the page load.');
-    //}
-    //elseif ($this->getSetting('evaluate') === 'async') {
-      //$summary[] = $this->t('The mathematical expression will be evaluated asynchronously and showed on mouse over the expression.');
-    //}
-
-    //return $summary;
-  //}
-
-  /**
-   * {@inheritdoc}
-   */
   public function viewElements(FieldItemListInterface $items, $langcode) {
-    //$evaluate = $this->getSetting('evaluate');
-    //$elements = [];
     $nid = $items->getEntity()->id();
     $field_name = $items->getName();
     $bundle = $items->getEntity()->bundle();
@@ -123,7 +63,6 @@ class ReactMathFormatter extends FormatterBase implements ContainerFactoryPlugin
       '#nid' => $nid,
       '#field_name' => $field_name,
       '#bundle' => $bundle,
-
     ];
 
     $element['#attached']['library'][] = 'math_formatter/react_field';
@@ -132,4 +71,3 @@ class ReactMathFormatter extends FormatterBase implements ContainerFactoryPlugin
   }
 
 }
-

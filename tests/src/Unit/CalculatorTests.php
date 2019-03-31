@@ -12,7 +12,6 @@ use Drupal\Tests\UnitTestCase;
 
 /**
  * @coversDefaultClass \Drupal\math_formatter\Calculator
- * @group serialization
  */
 class CalculatorTest extends UnitTestCase {
 
@@ -64,7 +63,6 @@ class CalculatorTest extends UnitTestCase {
       // Complex case.
       ['-20', '10 + 20 - 30 + 15 * 5 - 32 + 1*2 - 2.5 - 7.5 + 5 - 5*2*2 - 100/10*2*4/2'],
     ];
-
   }
 
   /**
@@ -73,6 +71,5 @@ class CalculatorTest extends UnitTestCase {
   public function tearDown() {
     unset($this->calculator);
   }
-
 
 }

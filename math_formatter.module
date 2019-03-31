@@ -11,11 +11,11 @@
 function math_formatter_theme() {
   return [
     'math_formatter' => [
-      'variables' => ['value' => '', 'evaluate' => 'sync'],
+      'variables' => ['evaluate' => 'sync', 'value' => ''],
       'template' => 'math_formatter',
     ],
     'react_math_formatter' => [
-      'variables' => ['nid' => '', 'field_name' => '', 'bundle' => '' ],
+      'variables' => ['bundle' => '', 'field_name' => '', 'nid' => ''],
       'template' => 'react_math_formatter',
      ],
   ];
@@ -25,5 +25,7 @@ function math_formatter_theme() {
  * Implements hook_uninstall().
  */
 function math_formatter_uninstall() {
+  // Removes the configuration introduced to prevent 'Missing plugin'
+  // error on module uninstall.
   \Drupal::configFactory()->getEditable('rest.resource.calculator_resource')->delete();
 }

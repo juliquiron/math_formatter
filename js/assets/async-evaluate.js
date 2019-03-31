@@ -1,6 +1,6 @@
 Drupal.behaviors.asyncMathFormatter = {
   attach: function (context, settings) {
-    jQuery('math[data-evaluate="async"]', context).each(function () {
+    jQuery('math[data-evaluate-method="async"]', context).each(function () {
       jQuery(this).one('mouseenter', function () {
         let $this = jQuery(this);
         if (!$this.attr('data-evaluated')) {
@@ -10,7 +10,7 @@ Drupal.behaviors.asyncMathFormatter = {
             data: {
               expression: $this.text()
             }
-          }).done(function (res){
+          }).done(function (res) {
             $this.text($this.text() + ' = ' + res.value);
             $this.attr('data-evaluated', true);
           });

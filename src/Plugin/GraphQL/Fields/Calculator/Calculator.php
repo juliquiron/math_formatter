@@ -1,8 +1,8 @@
 <?php
 
 /**
- * File
- * contains @TODO
+ * @file
+ * GraphQL field plugin for Calculator service.
  */
 
 namespace Drupal\math_formatter\Plugin\GraphQL\Fields\Calculator;
@@ -14,7 +14,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 
 
 /**
- * Check if an Url is routed.
+ * Calculates the result of a given expression.
  *
  * @GraphQLField(
  *   id = "calculator",
@@ -28,6 +28,7 @@ use GraphQL\Type\Definition\ResolveInfo;
  * )
  */
 class Calculator extends FieldPluginBase {
+
   /**
    * {@inheritdoc}
    */
