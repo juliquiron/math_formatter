@@ -9,12 +9,9 @@ class FieldValue extends Component {
   state = {
     evaluated: false
   }
-  shouldComponentUpdate (nextProps) {
-    return this.props.value !== nextProps.value;
-  }
 
   updateExpression = (value) => {
-    this.props.value = this.props.value + ' = ' + value.appendResult;
+    this.props.expression = this.props.expression + ' = ' + value.appendResult;
     this.setState({evaluated: true});
   }
 
@@ -24,7 +21,7 @@ class FieldValue extends Component {
 
   evaluate = () => {
     if (!this.state.evaluated) {
-      let requestURL = "/calculator/evaluate?_format=json&expression=" + this.props.value;
+      let requestURL = "/calculator/evaluate?_format=json&expression=" + this.props.expression;
       fetch(requestURL)
         .then(response => response.json())
         .then(data => {
@@ -35,7 +32,7 @@ class FieldValue extends Component {
     }
   };
   render () {
-    return <div onMouseEnter={this.evaluate}>{this.props.value}</div>;
+    return <div onMouseEnter={this.evaluate}>{this.props.expression}</div>;
   }
 
 }

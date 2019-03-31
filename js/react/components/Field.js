@@ -33,8 +33,8 @@ const Field = (props) => (
     if (loading) return "Loading...";
     if (error) return `Error: ${error.message}`;
 
-    return data.nodeById.fieldEval.map(( value ) => (
-      <FieldValue value={value}/>
+    return data.nodeById.fieldEval.map(( expression ) => (
+      <FieldValue expression={expression}/>
     ));
   }}
 
